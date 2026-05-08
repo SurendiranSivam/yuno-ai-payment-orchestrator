@@ -38,9 +38,9 @@ cd ../frontend && npm install && npm run dev
 
 | Service | URL |
 |---|---|
-| **Dashboard** | http://localhost:3000 |
-| **API Docs** | http://localhost:8000/docs |
-| **WebSocket** | ws://localhost:8000/ws/events |
+| **Dashboard** | https://yuno-ai-payment-orchestrator.vercel.app |
+| **API Docs** | https://yuno-ai-payment-orchestrator.onrender.com/docs |
+| **WebSocket** | wss://yuno-ai-payment-orchestrator.onrender.com/ws/events |
 
 > **No API keys required.** The system runs in development fallback mode with realistic mock responses.
 
@@ -463,17 +463,17 @@ python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```bash
 cd frontend
 npm install
-npm run dev                    # Starts on http://localhost:3000
+npm run dev                    # Starts on http://localhost:3000 (Development)
 ```
 
 ### 5. Verify
 
 | Service | URL | Check |
 |---|---|---|
-| **Backend API** | http://localhost:8000/api/health | `{"status": "healthy"}` |
-| **Swagger Docs** | http://localhost:8000/docs | Full API documentation |
-| **Dashboard** | http://localhost:3000 | Operations dashboard |
-| **WebSocket** | ws://localhost:8000/ws/events | Live event stream |
+| **Backend API** | https://yuno-ai-payment-orchestrator.onrender.com/api/health | `{"status": "healthy"}` |
+| **Swagger Docs** | https://yuno-ai-payment-orchestrator.onrender.com/docs | Full API documentation |
+| **Dashboard** | https://yuno-ai-payment-orchestrator.vercel.app | Operations dashboard |
+| **WebSocket** | wss://yuno-ai-payment-orchestrator.onrender.com/ws/events | Live event stream |
 
 ### Docker (Alternative)
 
@@ -487,7 +487,7 @@ This starts PostgreSQL, backend, and frontend with all services pre-configured.
 
 ## 📡 API Documentation
 
-The API is auto-documented at `http://localhost:8000/docs`. Key endpoints:
+The API is auto-documented at `https://yuno-ai-payment-orchestrator.onrender.com/docs`. Key endpoints:
 
 ### Agents
 
@@ -540,7 +540,7 @@ The API is auto-documented at `http://localhost:8000/docs`. Key endpoints:
 
 | Endpoint | Description |
 |---|---|
-| `ws://localhost:8000/ws/events` | Real-time event stream for monitoring |
+| `wss://yuno-ai-payment-orchestrator.onrender.com/ws/events` | Real-time event stream for monitoring |
 
 ---
 

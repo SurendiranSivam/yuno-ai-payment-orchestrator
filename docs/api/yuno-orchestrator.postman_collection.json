@@ -1,13 +1,13 @@
 {
   "info": {
     "name": "Yuno AI Orchestrator",
-    "description": "API collection for the Yuno AI Payment Operations Orchestrator. All endpoints are documented at http://localhost:8000/docs",
+    "description": "API collection for the Yuno AI Payment Operations Orchestrator. All endpoints are documented at https://yuno-ai-payment-orchestrator.onrender.com/docs",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:8000",
+      "value": "https://yuno-ai-payment-orchestrator.onrender.com",
       "type": "string"
     }
   ],
