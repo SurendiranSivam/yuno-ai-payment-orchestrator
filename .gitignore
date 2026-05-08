@@ -1,0 +1,56 @@
+# ── Python ────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# ── Node / Next.js ────────────────────────────────────────
+node_modules/
+.next/
+out/
+.turbo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Environment ───────────────────────────────────────────
+.env
+.env.local
+.env.production
+.env.development.local
+
+# ── Database ──────────────────────────────────────────────
+*.db
+*.sqlite3
+*.db-journal
+
+# ── IDE ───────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Docker ────────────────────────────────────────────────
+docker-compose.override.yml
+
+# ── FAISS ─────────────────────────────────────────────────
+*.bin
+!docs/**/*.bin
+
+# ── Testing ───────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml

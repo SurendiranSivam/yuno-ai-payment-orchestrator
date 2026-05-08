@@ -1,0 +1,241 @@
+{
+  "info": {
+    "name": "Yuno AI Orchestrator",
+    "description": "API collection for the Yuno AI Payment Operations Orchestrator. All endpoints are documented at http://localhost:8000/docs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/health",
+        "description": "Verify the backend is running and healthy."
+      }
+    },
+    {
+      "name": "Agents",
+      "item": [
+        {
+          "name": "List All Agents",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/agents",
+            "description": "Returns all configured AI agents with their roles, tools, and system prompts."
+          }
+        },
+        {
+          "name": "Create Agent",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/agents",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Custom Analysis Agent\",\n  \"role\": \"custom_analysis\",\n  \"system_prompt\": \"You are a custom analysis agent.\",\n  \"model\": \"gpt-4o\",\n  \"config\": { \"tools\": [\"analyze\"], \"guardrails\": [\"require_evidence\"] },\n  \"is_active\": true\n}"
+            },
+            "description": "Create a new AI agent with custom configuration."
+          }
+        },
+        {
+          "name": "Get Agent by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/agents/{{agent_id}}",
+            "description": "Retrieve a single agent by its ID."
+          }
+        },
+        {
+          "name": "Update Agent",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/agents/{{agent_id}}",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"system_prompt\": \"Updated system prompt for the agent.\",\n  \"model\": \"gpt-4o-mini\"\n}"
+            },
+            "description": "Partially update an agent's configuration."
+          }
+        },
+        {
+          "name": "Delete Agent",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/api/agents/{{agent_id}}",
+            "description": "Remove an agent from the system."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workflows",
+      "item": [
+        {
+          "name": "List All Workflows",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/workflows",
+            "description": "Returns all workflows including templates."
+          }
+        },
+        {
+          "name": "List Templates Only",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/workflows/templates",
+            "description": "Returns only workflow templates (prebuilt pipelines)."
+          }
+        },
+        {
+          "name": "Create Workflow",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/workflows",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Custom Investigation\",\n  \"description\": \"A custom workflow for specific payment issues.\",\n  \"graph_definition\": {},\n  \"is_template\": false\n}"
+            },
+            "description": "Create a new workflow definition."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workflow Runs",
+      "item": [
+        {
+          "name": "List Recent Runs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/workflow-runs?limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow-runs"],
+              "query": [{ "key": "limit", "value": "20" }]
+            },
+            "description": "Returns the most recent workflow executions."
+          }
+        },
+        {
+          "name": "⚡ Trigger Workflow Execution",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/workflow-runs",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_message\": \"My payment failed but amount was deducted from my account\",\n  \"customer_phone\": \"+1234567890\"\n}"
+            },
+            "description": "Trigger a full multi-agent workflow execution. The workflow runs asynchronously — monitor progress via WebSocket or the monitoring endpoints."
+          }
+        },
+        {
+          "name": "Get Run Details",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/workflow-runs/{{run_id}}",
+            "description": "Returns a complete workflow run with all events, inter-agent messages, and token usage."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Monitoring",
+      "item": [
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/monitoring/stats",
+            "description": "Aggregate statistics: agent count, workflow count, run statuses, total tokens used."
+          }
+        },
+        {
+          "name": "Recent Events Feed",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/monitoring/events?limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "monitoring", "events"],
+              "query": [{ "key": "limit", "value": "50" }]
+            },
+            "description": "Returns recent workflow events for the live activity feed."
+          }
+        }
+      ]
+    },
+    {
+      "name": "WhatsApp",
+      "item": [
+        {
+          "name": "🔥 Simulate WhatsApp Message",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/whatsapp/simulate",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+1234567890\",\n  \"message\": \"I see an unauthorized charge of $299 on my card\"\n}"
+            },
+            "description": "Simulate an incoming WhatsApp message. Triggers the full multi-agent orchestration pipeline without needing Meta WhatsApp credentials."
+          }
+        },
+        {
+          "name": "Webhook Verification",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/whatsapp/webhook?hub.mode=subscribe&hub.verify_token=yuno-verify-2024&hub.challenge=test123",
+              "host": ["{{base_url}}"],
+              "path": ["api", "whatsapp", "webhook"],
+              "query": [
+                { "key": "hub.mode", "value": "subscribe" },
+                { "key": "hub.verify_token", "value": "yuno-verify-2024" },
+                { "key": "hub.challenge", "value": "test123" }
+              ]
+            },
+            "description": "Meta webhook verification handshake (used during WhatsApp Business setup)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conversations",
+      "item": [
+        {
+          "name": "List Conversations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/conversations?limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "conversations"],
+              "query": [{ "key": "limit", "value": "50" }]
+            },
+            "description": "Returns WhatsApp conversation history (inbound + outbound messages)."
+          }
+        }
+      ]
+    }
+  ]
+}
