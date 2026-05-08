@@ -11,9 +11,6 @@ jobs:
   backend:
     name: Backend CI
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
 
     steps:
       - uses: actions/checkout@v4
@@ -26,16 +23,23 @@ jobs:
           cache-dependency-path: backend/requirements.txt
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          cd backend
+          pip install -r requirements.txt
 
       - name: Seed database
-        run: python seed.py
+        run: |
+          cd backend
+          python seed.py
 
       - name: Run tests
-        run: python -m pytest tests/ -v --tb=short
+        run: |
+          cd backend
+          python -m pytest tests/ -v --tb=short
 
       - name: Verify server starts
         run: |
+          cd backend
           python -m uvicorn main:app --host 0.0.0.0 --port 8000 &
           sleep 3
           curl -f http://localhost:8000/api/health || exit 1
@@ -45,9 +49,6 @@ jobs:
   frontend:
     name: Frontend CI
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
 
     steps:
       - uses: actions/checkout@v4
@@ -60,7 +61,11 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          cd frontend
+          npm ci
 
       - name: Build
-        run: npm run build
+        run: |
+          cd frontend
+          npm run build
