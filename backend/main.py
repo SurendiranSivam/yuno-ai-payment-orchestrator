@@ -33,7 +33,8 @@ async def lifespan(app: FastAPI):
     # Import all models so SQLModel registers them before create_all
     import models  # noqa: F401
 
-    await init_db()
+    from seed import seed_database
+    await seed_database()
     print(f"[START] {settings.app_name} started")
     print(f"   OpenAI: {'configured' if settings.openai_api_key else 'mock mode (no API key)'}")
     print(f"   WhatsApp: {'configured' if settings.whatsapp_token else 'simulation mode'}")
